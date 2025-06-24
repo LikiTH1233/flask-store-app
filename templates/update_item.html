@@ -1,1 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<div class="container">
+  <h2>Update Item #{{ item[0] }}</h2>
+  <form method="POST">
+    <label>Name:</label><input type="text" name="name" value="{{ item[1] }}" required><br>
+    <label>Price:</label><input type="number" step="0.01" name="price" value="{{ item[2] }}" required><br>
+    <label>Stock Qty:</label><input type="number" name="stock_quantity" value="{{ item[3] }}" required><br>
+    <input type="submit" value="Update Item" class="btn">
+    <a href="/" class="btn"> Cancel</a>
+  </form>
+</div>
+</body>
+</html>
 
