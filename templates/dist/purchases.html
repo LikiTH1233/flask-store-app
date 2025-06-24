@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchases</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Shipping/Purchase Records</h2>
+    <a href="/" class="btn">Back to Home</a>
+    <table>
+        <tr>
+            <th>Purchase ID</th><th>Customer</th><th>Shipping Address</th><th>Date</th>
+            <th>Item</th><th>Qty</th><th>Total</th><th>Action</th>
+        </tr>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row[0] }}</td><td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td><td>{{ row[5] }}</td>
+            <td>₹{{ "%.2f"|format(row[5] * row[6]) }}</td>
+            <td>
+                <a href="/update-purchase/{{ row[0] }}" class="btn"> Update</a>
+                <a href="/delete-purchase/{{ row[0] }}" class="btn danger" onclick="return confirm('Delete this purchase?')"> Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

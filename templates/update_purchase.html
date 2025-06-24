@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Purchase</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h2>Update Purchase #{{ purchase_id }}</h2>
+    <a href="/purchases" class="btn"> Back to Purchases</a>
+    <form method="POST">
+        <label>Customer Name:</label>
+        <input type="text" name="customer_name" value="{{ purchase[0] }}" required><br>
+
+        <label>Shipping Address:</label>
+        <input type="text" name="shipping_address" value="{{ purchase[1] }}" required><br><br>
+
+        <h4>Edit Items:</h4>
+        {% for item in items %}
+            <input type="checkbox" name="item_id" value="{{ item[0] }}"
+                {% if item[0] in purchased_items %}checked{% endif %}>
+            {{ item[1] }} (Stock: {{ item[3] }})
+            Quantity: <input type="number" name="quantity" value="{{ purchased_items.get(item[0], 0) }}"><br><br>
+        {% endfor %}
+        <input type="submit" value="Update Purchase">
+    </form>
+</div>
+</body>
+</html>
