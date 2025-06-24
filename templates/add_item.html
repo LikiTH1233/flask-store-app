@@ -1,22 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Add Item</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <meta charset="UTF-8">
+    <title>Store Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="container">
-    <h2>Add New Item</h2>
-    <a href="/" class="btn"> Home</a>
-    <form method="POST">
-        <label>Name:</label>
-        <input type="text" name="name" required><br>
-        <label>Price:</label>
-        <input type="number" step="0.01" name="price" required><br>
-        <label>Stock Quantity:</label>
-        <input type="number" name="stock_quantity" required><br>
-        <input type="submit" value="Add Item">
-    </form>
-</div>
+    <div class="container">
+        <h1> Store Inventory</h1>
+
+        <div class="nav-buttons">
+            <a href="{{ url_for('add_item') }}" class="btn"> Add Item</a>
+            <a href="{{ url_for('purchase') }}" class="btn"> New Purchase</a>
+            <a href="{{ url_for('purchases') }}" class="btn"> Purchases/Shippings</a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>₹{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>
+                        <a href="{{ url_for('update_item', item_id=item[0]) }}" class="btn update">Update</a>
+                        <a href="{{ url_for('delete_item', item_id=item[0]) }}" class="btn danger"
+                           onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5">No items in inventory.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
