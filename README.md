@@ -1,8 +1,12 @@
-EXERCISE ASSESMENT FOR THE KCSPL
+*******EXERCISE ASSESMENT FOR THE KCSPL*******
 STORE APP 
 Web app using Flask and SQLite,HTML,CSS.
+*******FEATURES*******
+Add New Item, Inventory or item list, New Purchase and View Purchases/shipping, Update and deleting the Purchases/shipping 
+Easy delete and addition of itmes 
+Easy to purchase interface 
 
-*******HOW TO RUN THIS PROJECT********
+*******HOW TO RUN THIS PROJECT*******
 python -m venv venv
 venv\Scripts\activate
 pip install flask
