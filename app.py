@@ -120,23 +120,35 @@ def purchase():
         selected_items = request.form.getlist("item_id")
         quantities = request.form.getlist("quantity")
 
-        c.execute("INSERT INTO purchases (customer_name, shipping_address) VALUES (?, ?)",
-                  (name, address))
+        for item_id, qty in zip(selected_items, quantities):
+            if not qty.strip().isdigit():
+                flash(" Please enter a valid quantity.", "danger")
+                conn.close()
+                return render_template("purchase.html", items=items)
+
+            item_id = int(item_id)
+            qty = int(qty)
+
+            c.execute("SELECT name, stock_quantity FROM items WHERE item_id=?", (item_id,))
+            item = c.fetchone()
+            if item:
+                item_name, stock = item
+                if qty > stock:
+                    flash(f" Not enough stock for item '{item_name}'. Available: {stock}", "danger")
+                    conn.close()
+                    return render_template("purchase.html", items=items)
+
+        c.execute("INSERT INTO purchases (customer_name, shipping_address) VALUES (?, ?)", (name, address))
         purchase_id = c.lastrowid
 
         for item_id, qty in zip(selected_items, quantities):
             item_id = int(item_id)
             qty = int(qty)
             if qty > 0:
-                c.execute("SELECT stock_quantity FROM items WHERE item_id=?", (item_id,))
-                stock = c.fetchone()[0]
-                if stock >= qty:
-                    c.execute("INSERT INTO purchase_items (purchase_id, item_id, quantity) VALUES (?, ?, ?)",
-                              (purchase_id, item_id, qty))
-                    c.execute("UPDATE items SET stock_quantity = stock_quantity - ? WHERE item_id=?",
-                              (qty, item_id))
-                else:
-                    flash(f" Not enough stock for item ID {item_id}. Available: {stock}", "error")
+                c.execute("INSERT INTO purchase_items (purchase_id, item_id, quantity) VALUES (?, ?, ?)", 
+                          (purchase_id, item_id, qty))
+                c.execute("UPDATE items SET stock_quantity = stock_quantity - ? WHERE item_id=?", 
+                          (qty, item_id))
 
         conn.commit()
         conn.close()
@@ -145,7 +157,6 @@ def purchase():
 
     conn.close()
     return render_template("purchase.html", items=items)
-
 
 @app.route("/purchases")
 def purchases():
