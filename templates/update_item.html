@@ -2,7 +2,16 @@
 <html>
 <head><link rel="stylesheet" href="/static/style.css"></head>
 <body>
+  
+
 <div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
   <h2>Update Item #{{ item[0] }}</h2>
   <form method="POST">
     <label>Name:</label><input type="text" name="name" value="{{ item[1] }}" required><br>
@@ -14,4 +23,3 @@
 </div>
 </body>
 </html>
-
