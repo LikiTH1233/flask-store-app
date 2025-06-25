@@ -6,6 +6,15 @@
 </head>
 <body>
 <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
     <h2>New Purchase</h2>
     <a href="/" class="btn">Back to Home</a>
     <form method="POST">
