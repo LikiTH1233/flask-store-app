@@ -5,7 +5,16 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+    
+
 <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
     <h2>Update Purchase #{{ purchase_id }}</h2>
     <a href="/purchases" class="btn"> Back to Purchases</a>
     <form method="POST">
